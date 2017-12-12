@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { Link } from 'react-router-dom'
-import { Route } from 'react-router-dom'
+import { Link , Route } from 'react-router-dom'
 import * as BooksAPI from './utils/BooksAPI.js';
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import AppBar from 'material-ui/AppBar'
+import Library from './Library'
 class App extends Component {
 
   state = {
@@ -19,16 +18,21 @@ class App extends Component {
     );
   }
 
+
+
   render() {
     console.log(this.state.bookshelf);
     return (
-      <div className="App">
-        {this.state.bookshelf.map(book => (
-            <span
-              style={{display:"block"}}
-              key={book.id}>{book.title}</span>
-        ))}
-      </div>
+      <MuiThemeProvider>
+        <div>
+          <AppBar
+            title="My Reads App"
+            showMenuIconButton={false}
+            titleStyle={{textAlign:"center"}}
+            />
+          <Library />
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
