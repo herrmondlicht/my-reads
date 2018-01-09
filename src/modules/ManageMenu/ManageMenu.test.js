@@ -1,57 +1,77 @@
 import React from 'react'
-import { shallow, configure } from "enzyme";
-import Adapter from 'enzyme-adapter-react-16';
+import { shallow } from "../../testRender";
 import ManageMenu from './ManageMenu';
 
-configure({adapter: new Adapter()});
+const renderManageMenu = shallow(ManageMenu);
 
-describe("Componente ManageMenu", () => {
-	test("que deve ser uma função",() => {
-		expect(typeof ManageMenu).toBe('function')
+describe('ManageMenu', () => {
+
+  const changeBookStatus = jest.fn();
+
+  beforeEach(() => {
+    changeBookStatus.mockReset()
+  })
+
+  test("must return a function", () => {
+    expect(typeof ManageMenu).toBe('function');
   });
 
-  test("que deve ter renderizar um componente", () => {
-    const wrapper = shallow(<ManageMenu />);
-    wrapper.render()
+  test('must have a IconButton with a onClick', () => {
+    const wrapper = renderManageMenu.withProps({ changeBookStatus })
+    ,buttonFunction = wrapper.find('IconButton').prop('onClick');
+
+    expect(typeof buttonFunction).toBe('function');
   });
 
-  test("que deve renderizar os itens da prop em uma lista", () => {
-    const propItems = [
-      {label:'Currently Reading', action: 'currently'},
-      {label:'Want to Read', action:'want'},
-      {label:'Read',action:'read'},
-    ];
-    const wrapper = shallow(<ManageMenu menuItems={ propItems }/>);
+  test('must render a Popover component with a onRequestClose', () => {
+    const wrapper = renderManageMenu.withProps({changeBookStatus})
+    , popoverFunction = wrapper.find('Popover').prop('onRequestClose');
 
-    propItems.map((item, index )=> {
-      expect(wrapper.find('div')
-            .children()
-            .at(index).text())
-            .toBe(propItems[index].label);
-    });
+    expect(typeof popoverFunction).toBe('function')
   });
 
-  test("que deve ter uma função de manejar o estado do livro nos itens renderizados da prop", () => {
-    const propItems = [
-      {label:'Currently Reading', action: 'currently'},
-    ]
-    ,wrapper = shallow(<ManageMenu menuItems={ propItems }/>)
-    ,actual = wrapper.find('div').children().at(0).prop('onClick')
-    expect(typeof actual).toBe('function');
+  test('must render at least one Component inside Popover', () => {
+    const wrapper = renderManageMenu.withProps({changeBookStatus})
+    , actual = wrapper.find('Popover').children().length
+    , expected = 0;
+    expect(actual).toBeGreaterThan(expected);
   });
 
-  test("testa o click do item", () => {
-    const changeBookStatusStub = jest.fn()
-    ,propItems = [
-      {label:'Currently Reading', action: 'currently'},
-    ]
-    ,wrapper = shallow(<ManageMenu menuItems={ propItems } changeBookStatus={ changeBookStatusStub } />)
-    ,clickDiv = wrapper.find({action:'currently'})
+  describe('has the following methods', () => {
+    
+    test('handleButtonClick which opens the popover', () => {
+      const wrapper =  renderManageMenu.withProps({changeBookStatus})
+      , handleButtonClickFunction = wrapper.instance().handleButtonClick
+      , event = {
+        preventDefault: jest.fn()
+      }
+      handleButtonClickFunction(event);
 
-    clickDiv.simulate('click');
+      const popoverStatus = wrapper.state().openedPopover;
 
-    expect(changeBookStatusStub).toBeCalledWith(propItems[0]);
+      expect(popoverStatus).toEqual(true);
+      expect(event.preventDefault).toHaveBeenCalled()
 
-  });
+    })
 
-});
+    test('handlePopoverClose which closes the popover', () => {
+      const wrapper =  renderManageMenu.withProps({changeBookStatus})
+      , handleCloseRequestFunction = wrapper.instance().handleCloseRequest
+
+      wrapper.setState({
+        popoverOpened: true,
+      });
+
+      handleCloseRequestFunction();
+
+      const popoverStatus = wrapper.state().openedPopover;
+
+      expect(popoverStatus).toEqual(false);
+
+    })
+  })
+
+
+
+
+})

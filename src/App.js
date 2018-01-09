@@ -4,10 +4,12 @@ import * as BooksAPI from './utils/BooksAPI.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar'
 import Library from './Library'
+import Book from './modules/Book/Book';
 class App extends Component {
 
   state = {
     bookshelf: [],
+    shelfSelectedBooks:[],
   }
 
   componentDidMount(){
@@ -18,19 +20,30 @@ class App extends Component {
     );
   }
 
+  handleBookSelection = (book,value) => {
+    if(!!value) this.setState(prevstate => ({shelfSelectedBooks:prevstate.shelfSelectedBooks.concat([book])}))
+    else this.setState(prevstate => (
+      {shelfSelectedBooks: prevstate.shelfSelectedBooks.filter(
+        b=> b.id != book.id
+      )}))
+  }
 
 
   render() {
-    console.log(this.state.bookshelf);
+
+    console.log(this.state.shelfSelectedBooks)
+    const {bookshelf, shelfSelectedBooks} = this.state
     return (
       <MuiThemeProvider>
-        <div>
-          <AppBar
-            title="My Reads App"
-            showMenuIconButton={false}
-            titleStyle={{textAlign:"center"}}
-            />
-          <Library />
+        <div style={{display:'inline-flex'}}>
+          { bookshelf.map(book => (
+            <Book key={book.id}
+              bookObject={book}
+              changeBookStatus={()=>{}}
+              selectionFunction={this.handleBookSelection}
+              isChecked={!!shelfSelectedBooks.find(b=> b.id == book.id)}
+            />)) 
+          }
         </div>
       </MuiThemeProvider>
     );
