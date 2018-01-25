@@ -1,49 +1,45 @@
 import React, { Component } from 'react';
-import { Link , Route } from 'react-router-dom'
+import { Link, Route } from 'react-router-dom'
 import * as BooksAPI from './utils/BooksAPI.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar'
 import Library from './Library'
 import Book from './modules/Book/Book';
+import Shelf from './modules/Shelf/Shelf';
 class App extends Component {
 
   state = {
-    bookshelf: [],
-    shelfSelectedBooks:[],
+    books: [],
   }
 
-  componentDidMount(){
-    BooksAPI.getAll().then(allBooks =>
-      this.setState({
-        bookshelf:allBooks,
-      })
-    );
+  availableBookStatus = [
+    "currentlyReading",
+    "wantToRead",
+    "read",
+  ]
+
+  getBooksFromShelf = (shelf) => this.state.books.filter(book => book.shelf === shelf)
+
+  getAllBooks = () => BooksAPI.getAll().then(allBooks => this.setState({ books: allBooks }))
+
+  componentDidMount() {
+    this.getAllBooks()
   }
 
-  handleBookSelection = (book,value) => {
-    if(!!value) this.setState(prevstate => ({shelfSelectedBooks:prevstate.shelfSelectedBooks.concat([book])}))
-    else this.setState(prevstate => (
-      {shelfSelectedBooks: prevstate.shelfSelectedBooks.filter(
-        b=> b.id != book.id
-      )}))
-  }
-
+  updateBook = (book, shelf) => BooksAPI.update(book, shelf)
 
   render() {
-
-    console.log(this.state.shelfSelectedBooks)
-    const {bookshelf, shelfSelectedBooks} = this.state
+    const { books } = this.state
+    console.log(books)
     return (
       <MuiThemeProvider>
-        <div style={{display:'inline-flex'}}>
-          { bookshelf.map(book => (
-            <Book key={book.id}
-              bookObject={book}
-              changeBookStatus={()=>{}}
-              selectionFunction={this.handleBookSelection}
-              isChecked={!!shelfSelectedBooks.find(b=> b.id == book.id)}
-            />)) 
-          }
+        <div style={{ display: 'block' }}>
+          <Shelf
+            reloadBooks={this.getAllBooks}
+            bookList={books}
+            updateBook={this.updateBook}
+            title={'Currently Reading'}
+            shelfId={'currentlyReading'} />
         </div>
       </MuiThemeProvider>
     );

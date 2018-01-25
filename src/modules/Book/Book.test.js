@@ -1,11 +1,12 @@
 import React from 'react';
 import { shallow } from "../../testRender";
 import Book from './Book';
-
+import { assert, stub } from "sinon";
 
 describe("Componente Book", () => {
 	const defaultProps = {
-		changeBookStatus:jest.fn(), 
+		changeBookStatus:jest.fn(),
+		reloadBooks: jest.fn(),
 		bookObject:{
 			imageLinks:{
 				thumbnail:'imageURL',
@@ -33,7 +34,13 @@ describe("Componente Book", () => {
 		expect(wrapper.find('img').length).toBe(1);
 	});
 
-	test("must have check element if selectionFunction is passed", () => {
+	test("must render a loading if isFetching is true", () => {
+		const wrapper = shallow(Book).withProps({...defaultProps});
+		wrapper.setState({isFetching:true});
+		expect(wrapper.find('Loading').length).toBe(1);
+	});
+
+	test("must have check element AND not have the ManageMenu if selectionFunction is passed", () => {
 		const stub_onCheck = jest.fn()
 		, wrapper = shallow(Book).withProps({...defaultProps, selectionFunction:stub_onCheck})
 		, actual = wrapper.find('Checkbox').length
@@ -59,15 +66,15 @@ describe("Componente Book", () => {
 
 	describe("que deve possuir uma função updateBook ", () => {
 		test("que deve executar a função recebida do componente pai para atualizar o livro", () => {
-			const stub_changeBookStatus = jest.fn()
+			const stub_changeBookStatus = stub().resolves({})
 				, wrapper = shallow(Book).withProps({...defaultProps, changeBookStatus: stub_changeBookStatus})
 				, updateBookStatusFunction = wrapper.instance().updateBookStatus
-				, updateBookParameters = 'currentlyReading'
+				, bookAction = 'currentlyReading'
 
-				updateBookStatusFunction(updateBookParameters);
+				updateBookStatusFunction(bookAction);
 
-				expect(stub_changeBookStatus).toBeCalled();
-				expect(stub_changeBookStatus).toBeCalledWith({action:'currentlyReading', book: defaultProps.bookObject})
+				assert.called(stub_changeBookStatus)
+				assert.calledWith(stub_changeBookStatus, defaultProps.bookObject, bookAction)
 
 		});
 	});

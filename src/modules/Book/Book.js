@@ -1,58 +1,84 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardHeader, CardMedia, CardText, CardActions, CardTitle} from 'material-ui/Card';
+import Paper from "material-ui/Paper";
 import Checkbox from "material-ui/Checkbox";
 import Typography from 'material-ui/styles/typography';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import CircularProgress from "material-ui/CircularProgress";
 import './Book.css'
 import ManageMenu from '../ManageMenu/ManageMenu';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Loading from '../Loading/Loading'
 
 
-class Book extends Component{
+class Book extends Component {
+
+  state = {
+    isFetching: false,
+  }
 
   checkBoxChange = (event, inputChecked) => {
-    const {bookObject,selectionFunction} = this.props;
+    const { bookObject, selectionFunction } = this.props;
     selectionFunction(bookObject, inputChecked);
   }
 
   updateBookStatus = (booksNewAction) => {
-    const {changeBookStatus, bookObject} = this.props;
-    !!booksNewAction && changeBookStatus({book:bookObject, action:booksNewAction})
+    const { changeBookStatus, bookObject, reloadBooks } = this.props;
+    if (!!booksNewAction) {
+      this.setState({ isFetching: true })
+      changeBookStatus(bookObject, booksNewAction)
+        .then(res => reloadBooks())
+        .catch(err => console.log(err))
+        .then(() => this.setState({ isFetching: false }))
+    }
   }
 
-  render(){
-    const {bookObject, selectionFunction = undefined, isChecked=false} = this.props;
+  render() {
+    const { bookObject, selectionFunction = undefined, isChecked = false } = this.props;
+    const { isFetching } = this.state;
     return (
       <MuiThemeProvider>
-      <div>
-        {!!selectionFunction && (
-          <Checkbox checked={isChecked} onCheck={this.checkBoxChange} />
-        )}
-        <Card className='book-container'>
-          <CardMedia>
-            <img src={bookObject.imageLinks.thumbnail} alt="" />
-          </CardMedia>
-          <CardTitle>
-            {bookObject.title}
-          </CardTitle>
-          <CardText>
-            {bookObject.subtitle}
-          </CardText>
-          <CardActions>
-            <ManageMenu changeBookStatus={this.updateBookStatus} selectedValue={bookObject.shelf} />
-          </CardActions>
-        </Card>
-      </div>
+        <div className="book-container">
+          {!!selectionFunction && (
+            <div className="checkbox-container">
+              <Checkbox checked={isChecked} onCheck={this.checkBoxChange} />
+            </div>
+          )}
+          <Paper zDepth={2} className="book-content">
+            <div className="relative">
+              {!!isFetching && (
+                <Loading />
+              )}
+              <img src={bookObject.imageLinks.thumbnail}
+                className='book-image' alt="" />
+            </div>
+            <div className="book-text-container ">
+              <span className="book-title book-text">
+                {bookObject.title}
+              </span>
+              <span className=" book-description book-text">
+                {bookObject.subtitle}
+              </span>
+            </div>
+            <div>
+              {!!!selectionFunction && (
+                <span className="manage-menu">
+                  <ManageMenu type={'fab'} changeBookStatus={this.updateBookStatus} selectedValue={bookObject.shelf} />
+                </span>
+              )}
+            </div>
+          </Paper>
+        </div>
       </MuiThemeProvider>
     );
   }
 }
 
 Book.propTypes = {
-	bookObject: PropTypes.object.isRequired,
-	changeBookStatus: PropTypes.func.isRequired,
+  bookObject: PropTypes.object.isRequired,
+  changeBookStatus: PropTypes.func.isRequired,
   selectionFunction: PropTypes.func,
-  isChecked:PropTypes.bool
+  isChecked: PropTypes.bool,
+  reloadBooks: PropTypes.func.isRequired
 }
 
 

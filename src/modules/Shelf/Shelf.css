@@ -1,0 +1,12 @@
+.book-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.shelf-container {
+    display: 'inline-flex';
+    width: '180px';
+    position: relative;
+}

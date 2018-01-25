@@ -1,4 +1,45 @@
+.book-content {
+  width: 150px;
+  height: 320px;
+  margin: 0 auto;
+  position: relative
+}
+.book-image {
+  width: 100%;
+  height:230px;
+}
 .book-container {
-  max-width: 130px;
-  max-height: 200px;
+  margin: 10px;
+}
+
+.book-text-container {
+  margin:5px;
+  min-height: 50px;
+}
+.book-title {
+  font-size: 14px;
+  font-weight: 500
+} 
+.book-text {
+  display: block;
+  width: 140px;
+  max-height:30px;
+  margin-top: 10px;
+  text-overflow: ellipsis;
+  text-align: center;
+  overflow: hidden;
+}
+.book-description {
+  font-size: 10px;
+  font-weight: 200
+}
+.manage-menu {
+  float: right;
+  margin-right: -16px;
+}
+.checkbox-container {
+  margin-bottom: 5px;
+}
+.relative {
+  position: relative
 }

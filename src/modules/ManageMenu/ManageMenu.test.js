@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from "../../testRender";
-import ManageMenu from './ManageMenu';
+import ManageMenu from '../ManageMenu/ManageMenu';
 
 const renderManageMenu = shallow(ManageMenu);
 
@@ -16,35 +16,36 @@ describe('ManageMenu', () => {
     expect(typeof ManageMenu).toBe('function');
   });
 
-  test('must have a IconButton with a onClick', () => {
+  test('must have a ManageMenuHeader', () => {
     const wrapper = renderManageMenu.withProps({ changeBookStatus })
-    ,buttonFunction = wrapper.find('IconButton').prop('onClick');
+      , expected = 1
+      , actual = wrapper.find('ManageMenuHeader').length;
 
-    expect(typeof buttonFunction).toBe('function');
+    expect(actual).toBe(expected)
   });
 
   test('must render a Popover component with a onRequestClose', () => {
-    const wrapper = renderManageMenu.withProps({changeBookStatus})
-    , popoverFunction = wrapper.find('Popover').prop('onRequestClose');
+    const wrapper = renderManageMenu.withProps({ changeBookStatus })
+      , popoverFunction = wrapper.find('Popover').prop('onRequestClose');
 
     expect(typeof popoverFunction).toBe('function')
   });
 
   test('must render at least one Component inside Popover', () => {
-    const wrapper = renderManageMenu.withProps({changeBookStatus})
-    , actual = wrapper.find('Popover').children().length
-    , expected = 0;
+    const wrapper = renderManageMenu.withProps({ changeBookStatus })
+      , actual = wrapper.find('Popover').children().length
+      , expected = 0;
     expect(actual).toBeGreaterThan(expected);
   });
 
   describe('has the following methods', () => {
-    
+
     test('handleButtonClick which opens the popover', () => {
-      const wrapper =  renderManageMenu.withProps({changeBookStatus})
-      , handleButtonClickFunction = wrapper.instance().handleButtonClick
-      , event = {
-        preventDefault: jest.fn()
-      }
+      const wrapper = renderManageMenu.withProps({ changeBookStatus })
+        , handleButtonClickFunction = wrapper.instance().handleButtonClick
+        , event = {
+          preventDefault: jest.fn()
+        }
       handleButtonClickFunction(event);
 
       const popoverStatus = wrapper.state().openedPopover;
@@ -55,8 +56,8 @@ describe('ManageMenu', () => {
     })
 
     test('handlePopoverClose which closes the popover', () => {
-      const wrapper =  renderManageMenu.withProps({changeBookStatus})
-      , handleCloseRequestFunction = wrapper.instance().handleCloseRequest
+      const wrapper = renderManageMenu.withProps({ changeBookStatus })
+        , handleCloseRequestFunction = wrapper.instance().handleCloseRequest
 
       wrapper.setState({
         popoverOpened: true,

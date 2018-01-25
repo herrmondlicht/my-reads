@@ -1,0 +1,15 @@
+.loader {
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  vertical-align: middle;
+  display: flex;
+}
+.overlay-content {
+  position: absolute;
+    background: rgba(0,0,0,0.8);
+    top: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+}

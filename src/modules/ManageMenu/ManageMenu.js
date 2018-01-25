@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { Popover } from "material-ui/Popover";
-import StatusList from "./StatusList";
-import IconButton from "material-ui/IconButton";
-import NavigationArrowDropDown from "material-ui/svg-icons/navigation/arrow-drop-down";
+import StatusList from "./StatusList/StatusList";
+import ManageMenuHeader from './ManageMenuHeader/ManageMenuHeader';
 
 class ManageMenu extends Component {
 
@@ -22,7 +21,7 @@ class ManageMenu extends Component {
 
   closePopover = () => {
     this.setState({
-      openedPopover:false,
+      openedPopover: false,
     })
   }
 
@@ -32,15 +31,15 @@ class ManageMenu extends Component {
     return (
       <MuiThemeProvider>
         <div>
-        <IconButton tooltip="Change Bookshelf" onClick={this.handleButtonClick}>
-          <NavigationArrowDropDown />
-        </IconButton>
-        <Popover onRequestClose={this.handleCloseRequest} 
-          open={this.state.openedPopover}
-          anchorEl={this.state.anchorEl}
-        >
-          <StatusList {...this.props} closePopover={this.closePopover} />
-        </Popover>
+          <ManageMenuHeader
+            type={this.props.type}
+            handleButtonClick={this.handleButtonClick} />
+          <Popover onRequestClose={this.handleCloseRequest}
+            open={this.state.openedPopover}
+            anchorEl={this.state.anchorEl}
+          >
+            <StatusList {...this.props} closePopover={this.closePopover} />
+          </Popover>
         </div>
       </MuiThemeProvider>
     )
