@@ -6,6 +6,7 @@ import ShelfHeader from './ShelfHeader/ShelfHeader'
 import './Shelf.css'
 import CircularProgress from "material-ui/CircularProgress/CircularProgress";
 import Loading from "../Loading/Loading";
+import Paper from "material-ui/Paper/Paper";
 
 class Shelf extends Component {
   state = {
@@ -66,29 +67,32 @@ class Shelf extends Component {
     const { selectModeOn, selectedBooks, isFetching } = this.state;
     return (
       <MuiThemeProvider>
-        <div>
-          <div>
-            <ShelfHeader
-              {...{ title, shelfId }}
-              selectModeOn={selectModeOn}
-              changeSelectedBookStatus={this.changeSelectedBookStatus}
-              toggleSelectionMode={this.toggleSelectionMode} />
-          </div>
-          <div className="relative">
-            {!!isFetching && (
-              <Loading />
-            )}
-            <div className="book-list">
-              {bookList.map(book => (
-                <Book key={book.id}
-                  bookObject={book}
-                  selectionFunction={selectModeOn ? this.handleBookSelection : undefined}
-                  isChecked={!!selectedBooks.find(b => b.id === book.id)}
-                  changeBookStatus={updateBook}
-                  reloadBooks={reloadBooks} />
-              ))}
+
+        <div className="shelf-container">
+          <Paper zDepth={2} >
+            <div>
+              <ShelfHeader
+                {...{ title, shelfId }}
+                selectModeOn={selectModeOn}
+                changeSelectedBookStatus={this.changeSelectedBookStatus}
+                toggleSelectionMode={this.toggleSelectionMode} />
             </div>
-          </div>
+            <div className="relative">
+              {!!isFetching && (
+                <Loading />
+              )}
+              <div className="book-list">
+                {bookList.map(book => (
+                  <Book key={book.id}
+                    bookObject={book}
+                    selectionFunction={selectModeOn ? this.handleBookSelection : undefined}
+                    isChecked={!!selectedBooks.find(b => b.id === book.id)}
+                    changeBookStatus={updateBook}
+                    reloadBooks={reloadBooks} />
+                ))}
+              </div>
+            </div>
+          </Paper>
         </div>
       </MuiThemeProvider>
     )

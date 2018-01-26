@@ -6,7 +6,5 @@
 }
 
 .shelf-container {
-    display: 'inline-flex';
-    width: '180px';
-    position: relative;
+  margin: 15px;
 }
