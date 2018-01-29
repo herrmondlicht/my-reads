@@ -8,7 +8,6 @@ describe('Shelf', () => {
 
   const renderedShelf = shallow(Shelf);
   const stubUpdateBooks = stub().resolves({});
-  const stubReloadBooks = stub().resolves({});
   const bookList = [
     { id: 1, title: 'TITLE 1', subtitle: 'SUBTITLE 1' },
     { id: 2, title: 'TITLE 2', subtitle: 'SUBTITLE 2' },
@@ -16,11 +15,10 @@ describe('Shelf', () => {
   ];
   const title = 'Shelf Title'
 
-  const rendersDefaultShelf = (prop) => renderedShelf.withProps({ bookList, title, updateBook: stubUpdateBooks, reloadBooks: stubReloadBooks, ...prop })
+  const rendersDefaultShelf = (prop) => renderedShelf.withProps({ bookList, title, updateBook: stubUpdateBooks, ...prop })
 
   beforeEach(() => {
     stubUpdateBooks.resetHistory();
-    stubReloadBooks.resetHistory();
   })
 
   test('must return a function', () => {

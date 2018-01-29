@@ -53,8 +53,7 @@ class Shelf extends Component {
       .then(() => {
         this.setState({
           selectedBooks: [],
-        });
-        return reloadBooks()
+        })
       })
       .finally(() => this.setState({
         selectModeOn: false,
@@ -63,11 +62,10 @@ class Shelf extends Component {
   }
 
   render() {
-    const { bookList, updateBook, title, shelfId, reloadBooks } = this.props;
+    const { bookList, updateBook, title, shelfId } = this.props;
     const { selectModeOn, selectedBooks, isFetching } = this.state;
     return (
       <MuiThemeProvider>
-
         <div className="shelf-container">
           <Paper zDepth={2} >
             <div>
@@ -87,8 +85,7 @@ class Shelf extends Component {
                     bookObject={book}
                     selectionFunction={selectModeOn ? this.handleBookSelection : undefined}
                     isChecked={!!selectedBooks.find(b => b.id === book.id)}
-                    changeBookStatus={updateBook}
-                    reloadBooks={reloadBooks} />
+                    changeBookStatus={updateBook} />
                 ))}
               </div>
             </div>
@@ -102,7 +99,6 @@ class Shelf extends Component {
 Shelf.propTypes = {
   bookList: PropTypes.array.isRequired,
   updateBook: PropTypes.func.isRequired,
-  reloadBooks: PropTypes.func.isRequired
 }
 
 export default Shelf;
