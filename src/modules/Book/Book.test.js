@@ -6,7 +6,6 @@ import { assert, stub } from "sinon";
 describe("Componente Book", () => {
 	const defaultProps = {
 		changeBookStatus:jest.fn(),
-		reloadBooks: jest.fn(),
 		bookObject:{
 			imageLinks:{
 				thumbnail:'imageURL',

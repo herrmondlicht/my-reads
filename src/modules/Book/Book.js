@@ -22,13 +22,12 @@ class Book extends Component {
   }
 
   updateBookStatus = (booksNewAction) => {
-    const { changeBookStatus, bookObject, reloadBooks } = this.props;
+    const { changeBookStatus, bookObject } = this.props;
     if (!!booksNewAction) {
       this.setState({ isFetching: true })
       changeBookStatus(bookObject, booksNewAction)
-        .then(res => reloadBooks())
-        .catch(err => console.log(err))
         .then(() => this.setState({ isFetching: false }))
+        .catch(err => console.log(err))
     }
   }
 
@@ -78,7 +77,6 @@ Book.propTypes = {
   changeBookStatus: PropTypes.func.isRequired,
   selectionFunction: PropTypes.func,
   isChecked: PropTypes.bool,
-  reloadBooks: PropTypes.func.isRequired
 }
 
 
