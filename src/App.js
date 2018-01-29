@@ -22,11 +22,25 @@ class App extends Component {
 
   getAllBooks = () => BooksAPI.getAll().then(allBooks => this.setState({ books: allBooks }))
 
+  // getAllBooks = () => BooksAPI.search('a').then(allBooks => this.setState({ books: allBooks }))
+
+
+
   componentDidMount() {
     this.getAllBooks()
   }
 
-  updateBook = (book, shelf) => BooksAPI.update(book, shelf)
+  changeBookStatus = (book, shelf) =>
+    BooksAPI.update(book, shelf)
+      .then(res => this.updateStateBook(book, shelf))
+
+  updateStateBook = (newBookValue, shelf) =>
+    this.setState(prevState =>
+      prevState.books.map(book =>
+        book.id === newBookValue.id && (book.shelf = shelf)
+      )
+    );
+
 
   render() {
     const { books } = this.state
@@ -35,9 +49,8 @@ class App extends Component {
       <MuiThemeProvider>
         <div style={{ display: 'block' }}>
           <Shelf
-            reloadBooks={this.getAllBooks}
             bookList={books}
-            updateBook={this.updateBook}
+            updateBook={this.changeBookStatus}
             title={'Currently Reading'}
             shelfId={'currentlyReading'} />
         </div>
