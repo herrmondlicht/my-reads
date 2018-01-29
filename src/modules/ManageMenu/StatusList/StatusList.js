@@ -7,7 +7,7 @@ const defaultMenu = [
   { label: 'Currently Reading', action: 'currentlyReading' },
   { label: 'Want to Read', action: 'wantToRead' },
   { label: 'Read', action: 'read' },
-  { label: 'None', action: ''}
+  { label: 'None', action: 'none'}
 ];
 
 class StatusList extends Component {

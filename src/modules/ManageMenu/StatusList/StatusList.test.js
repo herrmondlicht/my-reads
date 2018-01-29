@@ -26,18 +26,18 @@ describe("Component StatusList", () => {
   });
 
   test("which must render the prop items in a list", () => {
-    const propItems = [
+    const menuItems = [
       { label: 'Currently Reading', action: 'currentlyReading' },
       { label: 'Want to Read', action: 'wantToRead' },
       { label: 'Read', action: 'read' },
       { label: 'None', action: '' }
     ];
-    const wrapper = renderStatusList.withProps({ ...defaultProps });
+    const wrapper = renderStatusList.withProps({ ...defaultProps, menuItems });
 
-    propItems.map((item, index) => {
+    menuItems.map((item, index) => {
       expect(wrapper.find('Menu')
         .children()
-        .at(index).props().value).toBe(propItems[index].action);
+        .at(index).props().value).toBe(menuItems[index].action);
     });
   });
 
