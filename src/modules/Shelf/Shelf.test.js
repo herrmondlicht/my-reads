@@ -7,18 +7,26 @@ import Shelf from "./Shelf";
 describe('Shelf', () => {
 
   const renderedShelf = shallow(Shelf);
-  const stubUpdateBooks = stub().resolves({});
+  const stubChangeBookStatus = stub().resolves({});
   const bookList = [
     { id: 1, title: 'TITLE 1', subtitle: 'SUBTITLE 1' },
     { id: 2, title: 'TITLE 2', subtitle: 'SUBTITLE 2' },
     { id: 3, title: 'TITLE 3', subtitle: 'SUBTITLE 3' }
   ];
   const title = 'Shelf Title'
-
-  const rendersDefaultShelf = (prop) => renderedShelf.withProps({ bookList, title, updateBook: stubUpdateBooks, ...prop })
+  const shelfId = 'read'
+  const rendersDefaultShelf = (prop) => renderedShelf.withProps(
+    {
+      bookList,
+      title,
+      changeBookStatus: stubChangeBookStatus,
+      shelfId,
+      ...prop
+    }
+  )
 
   beforeEach(() => {
-    stubUpdateBooks.resetHistory();
+    stubChangeBookStatus.resetHistory();
   })
 
   test('must return a function', () => {
@@ -124,7 +132,7 @@ describe('Shelf', () => {
         , shelf = 'currentlyReading'
       createBookPromiseFunction(book, shelf);
 
-      assert.calledWith(stubUpdateBooks, book, shelf);
+      assert.calledWith(stubChangeBookStatus, book, shelf);
 
     });
 

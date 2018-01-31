@@ -36,7 +36,7 @@ class Shelf extends Component {
       this.createBookPromise(book, shelf))
 
   createBookPromise = (book, shelf) => new Promise((resolve, reject) =>
-    this.props.updateBook(book, shelf)
+    this.props.changeBookStatus(book, shelf)
       .then(res => resolve(res))
       .catch(err => reject(err))
   )
@@ -48,7 +48,6 @@ class Shelf extends Component {
   }
 
   executeAllBookPromises = (bookPromises) => {
-    const { reloadBooks } = this.props
     Promise.all(bookPromises)
       .then(() => {
         this.setState({
@@ -62,7 +61,7 @@ class Shelf extends Component {
   }
 
   render() {
-    const { bookList, updateBook, title, shelfId } = this.props;
+    const { bookList, changeBookStatus, title, shelfId } = this.props;
     const { selectModeOn, selectedBooks, isFetching } = this.state;
     return (
       <MuiThemeProvider>
@@ -85,7 +84,7 @@ class Shelf extends Component {
                     bookObject={book}
                     selectionFunction={selectModeOn ? this.handleBookSelection : undefined}
                     isChecked={!!selectedBooks.find(b => b.id === book.id)}
-                    changeBookStatus={updateBook} />
+                    changeBookStatus={changeBookStatus} />
                 ))}
               </div>
             </div>
@@ -98,7 +97,9 @@ class Shelf extends Component {
 
 Shelf.propTypes = {
   bookList: PropTypes.array.isRequired,
-  updateBook: PropTypes.func.isRequired,
+  changeBookStatus: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  shelfId: PropTypes.string.isRequired
 }
 
 export default Shelf;
