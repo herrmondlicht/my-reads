@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Currently Reading",
+    "id": "currentlyReading"
+  },
+  {
+    "title": "Read",
+    "id": "read"
+  },
+  {
+    "title": "Want to Read",
+    "id": "wantToRead"
+  }
+]
