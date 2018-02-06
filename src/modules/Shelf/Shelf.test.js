@@ -40,7 +40,7 @@ describe('Shelf', () => {
     expect(actual).toBe(expected);
   });
 
-  test('renders a bookList', () => {
+  test('renders at least one bookList', () => {
     const wrapper = rendersDefaultShelf()
       , actual = wrapper.find('Book').length
       , expected = 1;
@@ -86,27 +86,62 @@ describe('Shelf', () => {
     });
 
     describe('handleBookSelection method', () => {
-      test('which calls the state twice to change the selectedBooks array if value passed is true', () => {
+      // test('which calls the state twice to change the selectedBooks array if value passed is true', () => {
+      //   const wrapper = rendersDefaultShelf()
+      //     , SELECTED = true
+      //     , setStateStub = stub(wrapper.instance(), 'setState')
+      //     , handleBookSelectionFunction = wrapper.instance().handleBookSelection
+      //   handleBookSelectionFunction(bookList[0], SELECTED);
+
+      //   assert.calledTwice(setStateStub);
+
+      // });
+
+      // test('which calls the state once to change the selectedBooks array if value passed is false', () => {
+      //   const wrapper = rendersDefaultShelf()
+      //     , NOT_SELECTED = false
+      //     , setStateStub = stub(wrapper.instance(), 'setState')
+      //     , handleBookSelectionFunction = wrapper.instance().handleBookSelection
+      //   handleBookSelectionFunction(bookList[0], NOT_SELECTED);
+
+      //   assert.calledOnce(setStateStub);
+      // });
+
+      test('which adds a book to selectedBooksArray if value is truthy', () => {
         const wrapper = rendersDefaultShelf()
-          , SELECTED = true
-          , setStateStub = stub(wrapper.instance(), 'setState')
-          , handleBookSelectionFunction = wrapper.instance().handleBookSelection
-        handleBookSelectionFunction(bookList[0], SELECTED);
+        , SELECTED = true
+        , handleBookSelectionFunction = wrapper.instance().handleBookSelection
+        , bookToSelect = bookList[0]
+        let stateAfterSelectionHandled
+        , selectedBooksAfter;
 
-        assert.calledTwice(setStateStub);
+        wrapper.setState({selectedBooks:[]})
 
-      });
+        handleBookSelectionFunction(bookToSelect, SELECTED);
+        
+        stateAfterSelectionHandled = wrapper.instance().state;
+        selectedBooksAfter = stateAfterSelectionHandled.selectedBooks;
 
-      test('which calls the state once to change the selectedBooks array if value passed is false', () => {
+        expect(selectedBooksAfter).toContainEqual(bookToSelect)
+      })
+
+      test('which removes a book of selectedBooksArray if value is falsy', () => {
         const wrapper = rendersDefaultShelf()
-          , NOT_SELECTED = false
-          , setStateStub = stub(wrapper.instance(), 'setState')
-          , handleBookSelectionFunction = wrapper.instance().handleBookSelection
-        handleBookSelectionFunction(bookList[0], NOT_SELECTED);
+        , NOT_SELECTED = false
+        , handleBookSelectionFunction = wrapper.instance().handleBookSelection
+        , bookPreviouslyAdded = bookList[0]
+        let stateAfterSelectionHandled
+        , selectedBooksAfter;
 
-        assert.calledOnce(setStateStub);
+        wrapper.setState({selectedBooks:[bookPreviouslyAdded]})
 
-      });
+        handleBookSelectionFunction(bookPreviouslyAdded, NOT_SELECTED);
+        
+        stateAfterSelectionHandled = wrapper.instance().state;
+        selectedBooksAfter = stateAfterSelectionHandled.selectedBooks;
+
+        expect(selectedBooksAfter).not.toContainEqual(bookPreviouslyAdded)
+      })
     })
 
 
@@ -138,14 +173,14 @@ describe('Shelf', () => {
 
     test('changeSelectedBookStatus which update books to the selected shelf in ManageMenu', () => {
       const wrapper = rendersDefaultShelf()
-        , stubExecutePromises = stub(wrapper.instance(), 'executeAllBookPromises')
+        , stubonOnFinishExecutingPromises = stub(wrapper.instance(), 'onFinishExecutingPromises')
         , extractedChangeSelectedBookStatus = wrapper.instance().changeSelectedBookStatus
         , stubSetState = stub(wrapper.instance(), 'setState')
         , stubCreateBookPromises = stub(wrapper.instance(), 'createBookPromisesArray');
 
       extractedChangeSelectedBookStatus()
 
-      assert.callOrder(stubCreateBookPromises, stubSetState, stubExecutePromises);
+      assert.callOrder(stubCreateBookPromises, stubSetState, stubonOnFinishExecutingPromises);
 
     });
 

@@ -36,18 +36,18 @@ class Shelf extends Component {
       this.createBookPromise(book, shelf))
 
   createBookPromise = (book, shelf) => new Promise((resolve, reject) =>
-    this.props.changeBookStatus(book, shelf)
+    resolve(this.props.changeBookStatus(book, shelf)
       .then(res => resolve(res))
-      .catch(err => reject(err))
+      .catch(err => reject(err)))
   )
 
   changeSelectedBookStatus = (shelf) => {
     const bookPromises = this.createBookPromisesArray(shelf);
     this.setState({ isFetching: true });
-    this.executeAllBookPromises(bookPromises);
+    this.onFinishExecutingPromises(bookPromises);
   }
 
-  executeAllBookPromises = (bookPromises) => {
+  onFinishExecutingPromises = (bookPromises) => {
     Promise.all(bookPromises)
       .then(() => {
         this.setState({
@@ -67,13 +67,11 @@ class Shelf extends Component {
       <MuiThemeProvider>
         <div className="shelf-container">
           <Paper zDepth={2} >
-            <div>
-              <ShelfHeader
-                {...{ title, shelfId }}
-                selectModeOn={selectModeOn}
-                changeSelectedBookStatus={this.changeSelectedBookStatus}
-                toggleSelectionMode={this.toggleSelectionMode} />
-            </div>
+            <ShelfHeader
+              {...{ title, shelfId }}
+              selectModeOn={selectModeOn}
+              changeSelectedBookStatus={this.changeSelectedBookStatus}
+              toggleSelectionMode={this.toggleSelectionMode} />
             <div className="relative">
               {!!isFetching && (
                 <Loading />
