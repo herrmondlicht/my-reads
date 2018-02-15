@@ -14,11 +14,11 @@ describe('SearchBar', () => {
     stubSearchFor.resetHistory()
   })
 
-  it('must be a function', () => {
+  test('must be a function', () => {
     expect(typeof SearchBar).toBe('function')
   });
 
-  it('must render a TextField with an onChange', () => {
+  test('must render a TextField with an onChange', () => {
     const wrapper = renderWithProps()
       , actual = wrapper.find('TextField').prop('onChange')
       , expected = 'function'
@@ -26,7 +26,7 @@ describe('SearchBar', () => {
     expect(typeof actual).toBe(expected);
   });
 
-  it('must render an IconButton with an onClick', () => {
+  test('must render an IconButton with an onClick', () => {
     const wrapper = renderWithProps()
       , actual = wrapper.find('IconButton').prop('onClick')
       , expected = 'function'
@@ -34,7 +34,7 @@ describe('SearchBar', () => {
     expect(typeof actual).toBe(expected);
   });
 
-  it('must have a standard state', () => {
+  test('must have a standard state', () => {
     const wrapper = renderWithProps()
       , actual = wrapper.state()
       , expected = {
@@ -45,7 +45,7 @@ describe('SearchBar', () => {
     expect(actual).toMatchObject(expected);
   })
 
-  it('must have a HandleChange method', () => {
+  test('must have a HandleChange method', () => {
     const wrapper = renderWithProps()
       , instance = wrapper.instance()
       , stubHandleSearchTimer = stub(instance, 'HandleSearchTimer')
@@ -54,7 +54,7 @@ describe('SearchBar', () => {
     assert.called(stubHandleSearchTimer)
   });
 
-  it('must have a HandleSearchTimer method', () => {
+  test('must have a HandleSearchTimer method', () => {
     const wrapper = renderWithProps()
       , instance = wrapper.instance()
       , stubSetState = stub(instance, 'setState')
@@ -70,7 +70,7 @@ describe('SearchBar', () => {
   });
 
 
-  it('must have an ExecuteSearchWithStateValue', () => {
+  test('must have an ExecuteSearchWithStateValue', () => {
     const wrapper = renderWithProps()
       , instance = wrapper.instance()
       , ExecuteSearchWithStateValueFunction = instance.ExecuteSearchWithStateValue
@@ -86,7 +86,7 @@ describe('SearchBar', () => {
 
   })
 
-  // it('must have a DeleteTimeout', () => {
+  // test('must have a DeleteTimeout', () => {
   //   const wrapper = renderWithProps()
   //     , instance = wrapper.instance()
   //     , DeleteTimeoutFunction = instance.DeleteTimeout
@@ -95,7 +95,7 @@ describe('SearchBar', () => {
   //   expect(clearTimeout).toHaveBeenCalled()
   // })
 
-  // it('must have a setNewTimeout method', () => {
+  // test('must have a setNewTimeout method', () => {
   //   const wrapper = renderWithProps()
   //     , functionToBeExecuted = stub()
   //     , instance = wrapper.instance()

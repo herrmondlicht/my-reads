@@ -13,6 +13,8 @@ export default class SearchBar extends Component {
     searchText: '',
   }
 
+  static TIMEOUT_TIMER = 3000
+
   HandleChange = (e, value) => {
     this.setState({
       searchText: value
@@ -23,7 +25,7 @@ export default class SearchBar extends Component {
   HandleSearchTimer = () => {
     clearTimeout(this.state.searchTimeoutId)
     this.setState({
-      searchTimeoutId: setTimeout(this.ExecuteSearchWithStateValue, 3000)
+      searchTimeoutId: setTimeout(this.ExecuteSearchWithStateValue, this.TIMEOUT_TIMER)
     })
   }
 
