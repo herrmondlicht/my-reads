@@ -2,8 +2,11 @@
 import React, { Component } from 'react';
 import { Link, Route } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import FloatingActionButton from "material-ui/FloatingActionButton";
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import ShelvesData from '../../utils/Shelves'
 import Shelf from '../Shelf/Shelf';
+import "./Library.css";
 import { PropTypes } from "prop-types";
 
 class Library extends Component {
@@ -47,6 +50,11 @@ class Library extends Component {
                 shelfId={shelf.id}
                 changeBookStatus={this.changeBookStatus} />
             )}
+          </div>
+          <div className="fab-button-container">
+            <FloatingActionButton href='new'>
+              <ContentAdd />
+            </FloatingActionButton>
           </div>
         </div>
       </MuiThemeProvider>

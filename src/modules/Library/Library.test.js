@@ -57,6 +57,14 @@ describe('Library', () => {
 
   })
 
+  test('must render a floatingActionButton with a route parameter', () => {
+    const wrapper = renderedLibrary()
+    , actual = wrapper.find('FloatingActionButton[href]').length
+    , expected = 1;
+
+    expect(actual).toBe(expected)
+  })
+
   describe('has the getBooksFromShelf function', () => {
     const books = [
       { title: 'TEST', subtitle: 'subTest', id: 1, shelf: 'currentlyReading' },
