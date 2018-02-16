@@ -3,6 +3,7 @@ import { func } from "prop-types";
 import TextField from "material-ui/TextField";
 import IconButton from "material-ui/IconButton";
 import SearchIcon from "material-ui/svg-icons/action/search";
+import './SearchBar.css'
 
 export default class SearchBar extends Component {
   static propTypes = {
@@ -34,13 +35,11 @@ export default class SearchBar extends Component {
   render() {
     const { searchText } = this.state;
     return (
-      <div>
-        <TextField hintText={'Search for books'}
+      <div className="search-container">
+        <TextField style={{ width: 'calc(100% - 30px)' }} hintText={'Search for books'}
           value={searchText}
           onChange={this.HandleChange} />
-        <IconButton onClick={this.HandleSearchTimer}>
-          <SearchIcon />
-        </IconButton>
+        <SearchIcon />
       </div>
     )
   }

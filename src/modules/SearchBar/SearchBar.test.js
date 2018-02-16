@@ -26,14 +26,6 @@ describe('SearchBar', () => {
     expect(typeof actual).toBe(expected);
   });
 
-  test('must render an IconButton with an onClick', () => {
-    const wrapper = renderWithProps()
-      , actual = wrapper.find('IconButton').prop('onClick')
-      , expected = 'function'
-
-    expect(typeof actual).toBe(expected);
-  });
-
   test('must have a standard state', () => {
     const wrapper = renderWithProps()
       , actual = wrapper.state()
