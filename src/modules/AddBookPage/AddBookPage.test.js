@@ -1,23 +1,75 @@
 import { shallow } from "../../testRender";
 import AddBookPage from "../AddBookPage";
-import { assert, stub } from "sinon";
+import { assert, stub, createStubInstance } from "sinon";
+import * as OriginalBooksAPI from '../../utils/BooksAPI';
+
 
 describe('AddBookPage', () => {
-  it('must be a function', () => {
+  const BooksAPI = stub(OriginalBooksAPI)
+    , renderTest = (props) => shallow(AddBookPage).withProps({ ...props, BooksAPI })
+  test('must be a function', () => {
     expect(typeof AddBookPage).toBe('function')
   });
 
-  it('must render a SearchBar', () => {
-    const wrapper = shallow(AddBookPage).withProps({})
-    , actual = wrapper.find('SearchBar').length
-    , expected = 1
+  test('must render a SearchBar', () => {
+    const wrapper = renderTest()
+      , actual = wrapper.find('SearchBar').length
+      , expected = 1
     expect(actual).toBe(expected);
   });
 
-  it('must render a Shelf', () => {
-    const wrapper = shallow(AddBookPage).withProps({})
-    , actual = wrapper.find('Shelf').length
-    , expected = 1
+  test('must render a Shelf', () => {
+    const wrapper = renderTest()
+      , actual = wrapper.find('Shelf').length
+      , expected = 1
     expect(actual).toBe(expected);
+  })
+
+  test('must have a initizalized state', () => {
+    const wrapper = renderTest()
+      , actualState = wrapper.instance().state
+      , expectedState = {
+        bookList: [],
+      }
+
+    expect(actualState).toEqual(expectedState)
+  });
+
+  describe('must have a HandleSearch method', () => {
+    const correctText = 'text to search'
+      , wrongText = 'text that errors'
+      , promiseReturnedBooks = [
+        { id: 1, title: 'test' },
+        { id: 2, title: 'test' }
+      ]
+    BooksAPI.search = stub().rejects({ 'error': 'error' })
+    BooksAPI.search.withArgs(correctText).resolves(promiseReturnedBooks)
+
+
+    test('that search for a text in API and fills the bookList if successful', async () => {
+      const wrapper = renderTest()
+        , instance = wrapper.instance()
+        , HandleSearchFunction = instance.HandleSearch
+        , expectedState = { bookList: promiseReturnedBooks }
+      let stateAfterSearch;
+
+      await HandleSearchFunction(correctText)
+
+      stateAfterSearch = wrapper.state()
+      expect(stateAfterSearch).toEqual(expectedState)
+    });
+
+    test('that search for a text in API and fills the bookList with empty array if fails', async () => {
+      const wrapper = renderTest()
+        , instance = wrapper.instance()
+        , HandleSearchFunction = instance.HandleSearch
+        , expectedState = { bookList: [] }
+      let stateAfterSearch;
+
+      await HandleSearchFunction(wrongText)
+      
+      stateAfterSearch = wrapper.state()
+      expect(stateAfterSearch).toEqual(expectedState)
+    })
   })
 })

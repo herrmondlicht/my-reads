@@ -1,17 +1,34 @@
 import React, { Component } from 'react';
-import { func } from "prop-types";
+import { func, object } from "prop-types";
 import SearchBar from "../SearchBar";
 import Shelf from "../Shelf/Shelf";
 
 export default class AddBookPage extends Component {
 
+  static propTypes = {
+    BooksAPI: object.isRequired
+  }
 
+  state = {
+    bookList: []
+  }
+
+  HandleSearch = (searchText) => {
+    const { BooksAPI } = this.props;
+    BooksAPI.search(searchText)
+      .then(res => {
+        if (res.error) throw res
+        this.setState({ bookList: res })
+      })
+      .catch(res => this.setState({ bookList: [] }))
+  }
 
   render() {
+    const { bookList } = this.state;
     return (
       <div>
-        <SearchBar searchFor={() => { }} />
-        <Shelf bookList={[]}
+        <SearchBar searchFor={this.HandleSearch} />
+        <Shelf bookList={bookList}
           changeBookStatus={() => { }}
           title={'Results'}
           shelfId={'none'}
