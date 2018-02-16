@@ -57,6 +57,14 @@ describe('Shelf', () => {
     expect(actual).toBe(expected);
   })
 
+  test('renders a NoResult container if books array is empty', () => {
+    const wrapper = rendersDefaultShelf({bookList:[]})
+    , actual = wrapper.find('NoResults').length
+    , expected = 1;
+
+    expect(actual).toBe(expected);
+  })
+
   test('has a state with selectedBooks, selectModeOn, isFetching and booksUpdatePromises', () => {
     const wrapper = rendersDefaultShelf()
       , actualState = wrapper.state()
@@ -86,26 +94,6 @@ describe('Shelf', () => {
     });
 
     describe('handleBookSelection method', () => {
-      // test('which calls the state twice to change the selectedBooks array if value passed is true', () => {
-      //   const wrapper = rendersDefaultShelf()
-      //     , SELECTED = true
-      //     , setStateStub = stub(wrapper.instance(), 'setState')
-      //     , handleBookSelectionFunction = wrapper.instance().handleBookSelection
-      //   handleBookSelectionFunction(bookList[0], SELECTED);
-
-      //   assert.calledTwice(setStateStub);
-
-      // });
-
-      // test('which calls the state once to change the selectedBooks array if value passed is false', () => {
-      //   const wrapper = rendersDefaultShelf()
-      //     , NOT_SELECTED = false
-      //     , setStateStub = stub(wrapper.instance(), 'setState')
-      //     , handleBookSelectionFunction = wrapper.instance().handleBookSelection
-      //   handleBookSelectionFunction(bookList[0], NOT_SELECTED);
-
-      //   assert.calledOnce(setStateStub);
-      // });
 
       test('which adds a book to selectedBooksArray if value is truthy', () => {
         const wrapper = rendersDefaultShelf()

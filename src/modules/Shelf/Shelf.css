@@ -3,6 +3,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
+  min-height: 340px;
 }
 
 .shelf-container {

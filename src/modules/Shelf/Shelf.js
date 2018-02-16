@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import PropTypes from 'prop-types';
 import Book from "../Book/Book";
+import Loading from "../Loading/Loading";
+import NoResults from '../NoResults'
 import ShelfHeader from './ShelfHeader/ShelfHeader'
 import './Shelf.css'
 import CircularProgress from "material-ui/CircularProgress/CircularProgress";
-import Loading from "../Loading/Loading";
 import Paper from "material-ui/Paper/Paper";
 
 class Shelf extends Component {
@@ -77,13 +78,17 @@ class Shelf extends Component {
                 <Loading />
               )}
               <div className="book-list">
-                {bookList.map(book => (
-                  <Book key={book.id}
-                    bookObject={book}
-                    selectionFunction={selectModeOn ? this.handleBookSelection : undefined}
-                    isChecked={!!selectedBooks.find(b => b.id === book.id)}
-                    changeBookStatus={changeBookStatus} />
-                ))}
+                {!!bookList.length
+                  ?
+                  bookList.map(book => (
+                    <Book key={book.id}
+                      bookObject={book}
+                      selectionFunction={selectModeOn ? this.handleBookSelection : undefined}
+                      isChecked={!!selectedBooks.find(b => b.id === book.id)}
+                      changeBookStatus={changeBookStatus} />
+                  ))
+                  : <NoResults />
+                  }
               </div>
             </div>
           </Paper>
