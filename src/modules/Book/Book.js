@@ -47,8 +47,12 @@ class Book extends Component {
               {!!isFetching && (
                 <Loading />
               )}
-              <img src={bookObject.imageLinks.thumbnail}
-                className='book-image' alt="" />
+              <div className='book-image-container'>
+                {!!bookObject.imageLinks && (
+                  <img className="book-image" src={bookObject.imageLinks.thumbnail}
+                    alt="" />
+                )}
+              </div>
             </div>
             <div className="book-text-container ">
               <span className="book-title book-text">
