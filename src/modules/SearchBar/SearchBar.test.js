@@ -47,8 +47,9 @@ describe('SearchBar', () => {
   });
 
   test('must have a HandleSearchTimer method', () => {
-    const wrapper = renderWithProps()
-      , instance = wrapper.instance()
+    const wrapper = renderWithProps();
+    wrapper.setState({searchText:'text'})
+    const instance = wrapper.instance()
       , stubSetState = stub(instance, 'setState')
       , HandleSearchTimerFunction = instance.HandleSearchTimer
     HandleSearchTimerFunction();
