@@ -4,9 +4,14 @@
   margin: 0 auto;
   position: relative
 }
-.book-image {
+.book-image-container {
   width: 100%;
   height:210px;
+}
+
+.book-image {
+  width: 100%;
+  height: 100%;
 }
 .book-container {
   margin: 20px 20px 20px 20px;
