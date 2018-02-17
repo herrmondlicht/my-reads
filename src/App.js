@@ -3,8 +3,7 @@ import { Link, Route } from 'react-router-dom'
 import * as BooksAPI from './utils/BooksAPI.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar'
-import AddBookPage from './modules/AddBookPage'
-import Library from './modules/Library/Library'
+import Main from './modules/Main'
 
 class App extends Component {
 
@@ -12,12 +11,7 @@ class App extends Component {
     return (
       <MuiThemeProvider>
         <div>
-          <Route exact path='/' render={() => (
-            <Library BooksAPI={BooksAPI} />
-          )} />
-          <Route exact path='/new' render={() => (
-            <AddBookPage BooksAPI={BooksAPI} />
-          )} />
+          <Main BooksAPI={BooksAPI} />
         </div>
       </MuiThemeProvider>
     )

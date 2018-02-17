@@ -11,32 +11,12 @@ import { PropTypes } from "prop-types";
 
 class Library extends Component {
 
-  state = {
-    books: [],
-  }
-
-  getAllBooks = () => this.props.BooksAPI.getAll().then(allBooks => this.setState({ books: allBooks }))
 
   getBooksFromShelf = (shelfId) =>
-    this.state.books.filter(book => book.shelf === shelfId)
-
-  changeBookStatus = (book, shelf) =>
-    this.props.BooksAPI.update(book, shelf)
-      .then(res => this.updateStateBook(book, shelf))
-
-  updateStateBook = (newBookValue, shelf) =>
-    this.setState(prevState =>
-      prevState.books.map(book =>
-        book.id === newBookValue.id && (book.shelf = shelf)
-      )
-    );
-
-  componentDidMount() {
-    this.getAllBooks()
-  }
+    this.props.books.filter(book => book.shelf === shelfId)
 
   render() {
-    const { books } = this.state
+    const { changeBookStatus, books } = this.props
       , shelves = ShelvesData;
 
     return (
@@ -48,7 +28,7 @@ class Library extends Component {
                 bookList={this.getBooksFromShelf(shelf.id)}
                 title={shelf.title}
                 shelfId={shelf.id}
-                changeBookStatus={this.changeBookStatus} />
+                changeBookStatus={changeBookStatus} />
             )}
           </div>
           <div className="fab-button-container">
@@ -63,7 +43,8 @@ class Library extends Component {
 }
 
 Library.propTypes = {
-  BooksAPI: PropTypes.object.isRequired,
+  changeBookStatus: PropTypes.func.isRequired,
+  books: PropTypes.array
 }
 
 export default Library;

@@ -6,7 +6,8 @@ import Shelf from "../Shelf/Shelf";
 export default class AddBookPage extends Component {
 
   static propTypes = {
-    BooksAPI: object.isRequired
+    BooksAPI: object.isRequired,
+    loadedBooks = object.isRequired,
   }
 
   state = {

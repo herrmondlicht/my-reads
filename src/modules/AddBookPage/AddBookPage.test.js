@@ -6,6 +6,9 @@ import * as OriginalBooksAPI from '../../utils/BooksAPI';
 
 describe('AddBookPage', () => {
   const BooksAPI = stub(OriginalBooksAPI)
+  , loadedBooks = [
+    
+  ]
     , renderTest = (props) => shallow(AddBookPage).withProps({ ...props, BooksAPI })
   test('must be a function', () => {
     expect(typeof AddBookPage).toBe('function')
@@ -46,7 +49,7 @@ describe('AddBookPage', () => {
     BooksAPI.search.withArgs(correctText).resolves(promiseReturnedBooks)
 
 
-    test('that search for a text in API and fills the bookList if successful', async () => {
+    test('that searches for a text in API and fills the bookList if successful', async () => {
       const wrapper = renderTest()
         , instance = wrapper.instance()
         , HandleSearchFunction = instance.HandleSearch
@@ -59,7 +62,7 @@ describe('AddBookPage', () => {
       expect(stateAfterSearch).toEqual(expectedState)
     });
 
-    test('that search for a text in API and fills the bookList with empty array if fails', async () => {
+    test('that searches for a text in API and fills the bookList with empty array if fails', async () => {
       const wrapper = renderTest()
         , instance = wrapper.instance()
         , HandleSearchFunction = instance.HandleSearch
@@ -71,5 +74,13 @@ describe('AddBookPage', () => {
       stateAfterSearch = wrapper.state()
       expect(stateAfterSearch).toEqual(expectedState)
     })
+  })
+
+  describe('must have a FlagBooksShelves', () => {
+
+    test('that updates the result from search with the data from loadedBooks', () => {
+
+    })
+
   })
 })
