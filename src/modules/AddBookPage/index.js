@@ -7,7 +7,7 @@ export default class AddBookPage extends Component {
 
   static propTypes = {
     BooksAPI: object.isRequired,
-    loadedBooks = object.isRequired,
+    loadedBooks: object.isRequired,
   }
 
   state = {
@@ -22,6 +22,10 @@ export default class AddBookPage extends Component {
         this.setState({ bookList: res })
       })
       .catch(res => this.setState({ bookList: [] }))
+  }
+
+  FlagBooksShelves = () => {
+    
   }
 
   render() {
