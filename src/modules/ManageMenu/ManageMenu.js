@@ -19,11 +19,6 @@ class ManageMenu extends Component {
     });
   }
 
-  closePopover = () => {
-    this.setState({
-      openedPopover: false,
-    })
-  }
 
   handleCloseRequest = () => this.setState({ openedPopover: false })
 
@@ -38,7 +33,7 @@ class ManageMenu extends Component {
             open={this.state.openedPopover}
             anchorEl={this.state.anchorEl}
           >
-            <StatusList {...this.props} closePopover={this.closePopover} />
+            <StatusList {...this.props} closePopover={this.handleCloseRequest} />
           </Popover>
         </div>
       </MuiThemeProvider>
