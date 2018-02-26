@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { func, object } from "prop-types";
+import { func, array, object } from "prop-types";
 import SearchBar from "../SearchBar";
 import Shelf from "../Shelf/Shelf";
 
@@ -7,11 +7,11 @@ export default class AddBookPage extends Component {
 
   static propTypes = {
     BooksAPI: object.isRequired,
-    loadedBooks: object.isRequired,
+    books: array.isRequired,
   }
 
   state = {
-    bookList: []
+    bookList: [],
   }
 
   HandleSearch = (searchText) => {
@@ -24,17 +24,40 @@ export default class AddBookPage extends Component {
       .catch(res => this.setState({ bookList: [] }))
   }
 
-  FlagBooksShelves = () => {
-    
+  AddBook = (book, shelf) =>
+    this.props.BooksAPI.update(book, shelf)
+      .then(res => this.UpdateBookList(book, shelf))
+
+  UpdateBookList = (book, shelf) => {
+    const books = this.state.bookList
+      .map(listBook => {
+        if (listBook.id === book.id) listBook.shelf = shelf
+        return { ...listBook }
+      })
+    this.setState({
+      bookList: books
+    })
+  }
+
+
+  GetBooksWithShelfFlag = () => {
+    const { books: loadedBooks } = this.props
+      , bookListWithLoadedBooks = this.state.bookList.map(book => {
+        const foundBook = loadedBooks.find(loadedBook => loadedBook.id === book.id)
+        if (!!foundBook) return { ...foundBook }
+        return book
+      })
+    return bookListWithLoadedBooks
   }
 
   render() {
-    const { bookList } = this.state;
+    const bookListWithFlagged = this.GetBooksWithShelfFlag()
+      , { changeBookStatus } = this.props;
     return (
       <div>
         <SearchBar searchFor={this.HandleSearch} />
-        <Shelf bookList={bookList}
-          changeBookStatus={() => { }}
+        <Shelf bookList={bookListWithFlagged}
+          changeBookStatus={this.AddBook}
           title={'Results'}
           shelfId={'none'}
         />
