@@ -26,6 +26,7 @@ export default class Main extends Component {
   changeBookStatus = (book, shelf) =>
     this.props.BooksAPI.update(book, shelf)
       .then(res => this.updateStateBook(book, shelf))
+      .then(() => this.getAllBooks())
 
   updateStateBook = (newBookValue, shelf) =>
     this.setState(prevState =>
