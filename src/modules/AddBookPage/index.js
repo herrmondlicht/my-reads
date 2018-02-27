@@ -43,7 +43,7 @@ export default class AddBookPage extends Component {
   GetBooksWithShelfFlag = () => {
     const { books: loadedBooks } = this.props
       , bookListWithLoadedBooks = this.state.bookList.map(book => {
-        const foundBook = loadedBooks.find(loadedBook => loadedBook.id === book.id)
+        const foundBook = loadedBooks.find(loadedBook => loadedBook.id === book.id && !!!book.shelf)
         if (!!foundBook) return { ...foundBook }
         return book
       })
@@ -52,7 +52,6 @@ export default class AddBookPage extends Component {
 
   render() {
     const bookListWithFlagged = this.GetBooksWithShelfFlag()
-      , { changeBookStatus } = this.props;
     return (
       <div>
         <SearchBar searchFor={this.HandleSearch} />
