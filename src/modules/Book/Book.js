@@ -65,7 +65,7 @@ class Book extends Component {
             <div>
               {!!!selectionFunction && (
                 <span className="manage-menu">
-                  <ManageMenu type={'fab'} changeBookStatus={this.updateBookStatus} selectedValue={bookObject.shelf} />
+                  <ManageMenu type={'fab'} changeBookStatus={this.updateBookStatus} selectedValue={bookObject.shelf || 'none'} />
                 </span>
               )}
             </div>
