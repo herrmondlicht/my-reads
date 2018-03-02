@@ -9,9 +9,6 @@ export default class CustomAppBar extends Component {
     backIcon: bool
   }
 
-  handleBackIconClick = () =>
-    window.location.href = '/'
-
   BackButton = () => (<IconButton href={'/'}><BackIcon color="#FFF" /></IconButton>)
 
   render() {
@@ -21,7 +18,6 @@ export default class CustomAppBar extends Component {
         title={title}
         iconElementLeft={<this.BackButton />}
         iconStyleLeft={{ display: `${showBackIcon ? 'block' : 'none'}` }}
-        onLeftIconButtonClick={this.handleBackIconClick}
       />
     )
   }

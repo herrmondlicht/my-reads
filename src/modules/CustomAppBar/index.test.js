@@ -10,19 +10,15 @@ describe('CustomAppBar', () => {
     expect(typeof CustomAppBar).toBe('function')
   })
 
-  describe('must have a handleBackIconClick', () => {
-    test('which must return to the main page when clicked', () => {
-      const wrapper = render({ title: 'title', backIcon: true })
-      , handleBackIconClick = wrapper.instance().handleBackIconClick
-      handleBackIconClick()
-    });
-  })
-
   describe('must have a BackButton function', () => {
-    test('which must return to the main page when clicked', () => {
+    test('which must return an IconButton', () => {
       const wrapper = render({ title: 'title', backIcon: true })
-      , handleBackIconClick = wrapper.instance().handleBackIconClick
-      handleBackIconClick()
+      , BackButton = wrapper.instance().BackButton
+      , actual = shallow(BackButton).withProps().find('IconButton').length
+      , expected = 1;
+
+      expect(actual).toBe(expected)
+
     });
   })
 })
