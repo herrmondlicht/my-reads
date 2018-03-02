@@ -17,6 +17,13 @@ describe('AddBookPage', () => {
     expect(typeof AddBookPage).toBe('function')
   });
 
+  test('must return a function', () => {
+    const wrapper = renderTest()
+      , actual = wrapper.find('CustomAppBar').length
+      , expected = 1;
+    expect(actual).toBe(expected)
+  });
+
   test('must render a SearchBar', () => {
     const wrapper = renderTest()
       , actual = wrapper.find('SearchBar').length
@@ -122,8 +129,8 @@ describe('AddBookPage', () => {
 
       await addBookFunction(bookToBeAdded, newShelf)
 
-      assert.calledWith(BooksAPI.update, bookToBeAdded,newShelf)
-      assert.calledWith(stubUpdateBookList,bookToBeAdded, newShelf)
+      assert.calledWith(BooksAPI.update, bookToBeAdded, newShelf)
+      assert.calledWith(stubUpdateBookList, bookToBeAdded, newShelf)
 
     })
   })

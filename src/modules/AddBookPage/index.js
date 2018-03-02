@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { func, array, object } from "prop-types";
 import SearchBar from "../SearchBar";
 import Shelf from "../Shelf/Shelf";
+import CustomAppBar from "../CustomAppBar";
 
 export default class AddBookPage extends Component {
 
@@ -54,6 +55,7 @@ export default class AddBookPage extends Component {
     const bookListWithFlagged = this.GetBooksWithShelfFlag()
     return (
       <div>
+        <CustomAppBar showBackIcon={true} title="Add Book"/>
         <SearchBar searchFor={this.HandleSearch} />
         <Shelf bookList={bookListWithFlagged}
           changeBookStatus={this.AddBook}
