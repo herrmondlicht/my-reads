@@ -8,6 +8,7 @@ import ShelvesData from '../../utils/Shelves'
 import Shelf from '../Shelf/Shelf';
 import "./Library.css";
 import { PropTypes } from "prop-types";
+import CustomAppBar from "../CustomAppBar";
 
 class Library extends Component {
 
@@ -22,6 +23,7 @@ class Library extends Component {
     return (
       <MuiThemeProvider>
         <div>
+          <CustomAppBar title="Your Books" />
           <div>
             {shelves.map(shelf =>
               <Shelf key={shelf.id}

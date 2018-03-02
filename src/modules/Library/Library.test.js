@@ -15,6 +15,13 @@ describe('Library', () => {
     expect(typeof Library).toBe('function');
   });
 
+  test('must return a function', () => {
+    const wrapper = renderedLibrary({books:[]})
+      , actual = wrapper.find('CustomAppBar').length
+      , expected = 1;
+    expect(actual).toBe(expected)
+  });
+
   test('must render at least one shelf if has books', () => {
     const books = [
       { title: 'TEST', subtitle: 'subTest', id: 1, shelf: 'currentlyReading' },
