@@ -49,7 +49,7 @@ export default class Main extends Component {
         <MuiThemeProvider>
           <div>
             <Route exact path='/' component={this.RouteFor(Library)} />
-            <Route exact path='/new' component={this.RouteFor(AddBookPage)} />
+            <Route exact path='/search' component={this.RouteFor(AddBookPage)} />
           </div>
         </MuiThemeProvider>
       </div>

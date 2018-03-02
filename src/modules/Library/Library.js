@@ -34,7 +34,7 @@ class Library extends Component {
             )}
           </div>
           <div className="fab-button-container">
-            <FloatingActionButton href='new'>
+            <FloatingActionButton href='search'>
               <ContentAdd />
             </FloatingActionButton>
           </div>
