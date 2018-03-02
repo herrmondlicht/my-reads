@@ -32,7 +32,7 @@ export default class SearchBar extends Component {
 
   ExecuteSearchWithStateValue = () => {
     const { searchText } = this.state;
-    searchText.length && this.props.searchFor(searchText)
+    this.props.searchFor(searchText)
   }
 
   render() {
