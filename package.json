@@ -6,9 +6,9 @@
     "material-ui": "^0.20.0",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0",
+    "react-dom": "^16.13.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.0.17"
+    "react-scripts": "^3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,6 +30,18 @@
       "!src/index.js",
       "!src/setupTests.js",
       "!src/testRender.js"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }
